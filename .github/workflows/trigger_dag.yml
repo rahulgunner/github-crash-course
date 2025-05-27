@@ -29,11 +29,11 @@ import os
 from requests.auth import HTTPBasicAuth
 
 dag_id = 'test_dag'
-url = f'{os.environ['AIRFLOW_URL']}/api/v1/dags/{dag_id}/dagRuns'
+url = f\"{os.environ['AIRFLOW_URL']}/api/v1/dags/{dag_id}/dagRuns\"
 auth = HTTPBasicAuth(os.environ['AIRFLOW_USER'], os.environ['AIRFLOW_PASSWORD'])
 
 data = {
-    'dag_run_id': f'manual__{datetime.datetime.utcnow().isoformat()}'
+    'dag_run_id': f\"manual__{datetime.datetime.utcnow().isoformat()}\"
 }
 
 resp = requests.post(url, json=data, auth=auth)
