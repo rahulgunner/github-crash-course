@@ -10,8 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Install requests
-        run: python3 -m pip install requests
+        run: |
+          python3 -m pip install requests
 
       - name: Trigger DAG via Airflow API
         env:
@@ -19,22 +23,21 @@ jobs:
           AIRFLOW_USER: ${{ secrets.AIRFLOW_USER }}
           AIRFLOW_PASSWORD: ${{ secrets.AIRFLOW_PASSWORD }}
         run: |
-          cat <<EOF > trigger_dag.py
-import requests
+          echo "import requests
 import datetime
 import os
 from requests.auth import HTTPBasicAuth
 
 dag_id = 'test_dag'
-url = f"{os.environ['AIRFLOW_URL']}/api/v1/dags/{dag_id}/dagRuns"
+url = f'{os.environ['AIRFLOW_URL']}/api/v1/dags/{dag_id}/dagRuns'
 auth = HTTPBasicAuth(os.environ['AIRFLOW_USER'], os.environ['AIRFLOW_PASSWORD'])
 
 data = {
-    'dag_run_id': f"manual__{datetime.datetime.utcnow().isoformat()}"
+    'dag_run_id': f'manual__{datetime.datetime.utcnow().isoformat()}'
 }
 
 resp = requests.post(url, json=data, auth=auth)
 print('Status:', resp.status_code)
 print('Response:', resp.text)
-EOF
+" > trigger_dag.py
           python3 trigger_dag.py
