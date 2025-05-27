@@ -20,6 +20,7 @@ jobs:
           python3 -c "
 import requests
 import datetime
+import os
 from requests.auth import HTTPBasicAuth
 
 dag_id = 'test_dag'
