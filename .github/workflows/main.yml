@@ -19,3 +19,13 @@ jobs:
     steps:
       - name: Echo hello
         run: echo "hello"
+
+  say-bye:
+     if: github.head_ref == 'feat-section'
+     runs-on: ubuntu-latest
+
+     steps:
+      - name: Echo bye
+        run: echo "bye-bye"
+    
+  
