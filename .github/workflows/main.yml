@@ -1,0 +1,21 @@
+name: PR Hello Workflow
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '**'
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  say-hello:
+    if: github.head_ref == 'feat-section'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo hello
+        run: echo "hello"
